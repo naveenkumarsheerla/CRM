@@ -63,7 +63,7 @@ export const taskService = {
 
     async updateTask(id: string, task: Partial<Task>) {
         // Remove nested objects and timestamps before updating
-        const { lead, user, created_at, updated_at, ...updateData } = task;
+        const { lead: _lead, user: _user, created_at: _created_at, updated_at: _updated_at, ...updateData } = task;
         
         const { data, error } = await supabase
             .from("tasks")

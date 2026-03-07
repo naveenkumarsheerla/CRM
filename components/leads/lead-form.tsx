@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Lead } from "@/lib/services/lead-service";
 import { User } from "@/lib/services/user-service";
 
 interface LeadFormProps {
-    initialData?: any;
+    initialData?: Lead;
     users: User[];
     onSubmit: (data: Omit<Lead, "id" | "created_at" | "updated_at">) => void;
     onCancel: () => void;
@@ -33,7 +33,7 @@ export function LeadForm({ initialData, users, onSubmit, onCancel, isLoading }: 
         onSubmit({
             ...formData,
             assignedId: formData.assignedId === "" ? null : formData.assignedId,
-        } as any);
+        });
     };
 
     return (

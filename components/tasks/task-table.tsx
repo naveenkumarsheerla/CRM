@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { 
-    MoreHorizontal, 
     Pencil, 
     Trash2, 
     CheckCircle2, 
@@ -12,6 +11,7 @@ import {
     Target
 } from "lucide-react";
 import { Task } from "@/lib/services/task-service";
+import { Lead } from "@/lib/services/lead-service";
 
 interface TaskTableProps {
     tasks: Task[];
@@ -20,7 +20,6 @@ interface TaskTableProps {
 }
 
 export function TaskTable({ tasks, onEdit, onDelete }: TaskTableProps) {
-    const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
     const getStatusIcon = (status: string) => {
         switch (status) {

@@ -4,15 +4,16 @@ import { useState, useEffect } from "react";
 import { User, userService } from "@/lib/services/user-service";
 import { LeadTable } from "@/components/leads/lead-table";
 import { LeadDialog } from "@/components/leads/lead-dialog";
-import { Plus, Briefcase, RefreshCw, AlertCircle, Search, Filter } from "lucide-react";
+import { Plus, Briefcase, RefreshCw, AlertCircle, Search } from "lucide-react";
 import { getLeadsAction, createLeadAction, updateLeadAction, deleteLeadAction } from "./actions";
+import { Lead } from "@/lib/services/lead-service";
 
 export default function LeadsPage() {
-    const [leads, setLeads] = useState<any[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [editingLead, setEditingLead] = useState<any | undefined>();
+    const [editingLead, setEditingLead] = useState<Lead | undefined>();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -27,7 +28,7 @@ export default function LeadsPage() {
             ]);
             setLeads(leadsData);
             setUsers(usersData);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Failed to synchronize with the database. Ensure Prisma is generated and the database is reachable.");
         } finally {
@@ -39,7 +40,7 @@ export default function LeadsPage() {
         fetchData();
     }, []);
 
-    const handleCreateOrUpdate = async (formData: any) => {
+    const handleCreateOrUpdate = async (formData: Omit<Lead, "id" | "created_at" | "updated_at">) => {
         setIsSubmitting(true);
         try {
             if (editingLead?.id) {
@@ -50,15 +51,16 @@ export default function LeadsPage() {
             setIsDialogOpen(false);
             setEditingLead(undefined);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Database Error: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Database Error: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const handleEdit = (lead: any) => {
+    const handleEdit = (lead: Lead) => {
         setEditingLead(lead);
         setIsDialogOpen(true);
     };
@@ -68,9 +70,10 @@ export default function LeadsPage() {
         try {
             await deleteLeadAction(id);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Deletion Failed: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Deletion Failed: " + errorMessage);
         }
     };
 
@@ -154,8 +157,12 @@ export default function LeadsPage() {
             )}
 
             <LeadDialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
+                key={editingLead?.id || (isDialogOpen && !editingLead ? 'new' : 'none')}
+                isOpen={isDialogOpen || !!editingLead}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                    setEditingLead(undefined);
+                }}
                 title={editingLead ? "Edit Lead" : "New Lead"}
                 users={users}
                 initialData={editingLead}

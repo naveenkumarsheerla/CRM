@@ -9,6 +9,11 @@ export interface Lead {
     assignedId?: number | string | null;
     created_at?: string;
     updated_at?: string;
+    assignedTo?: {
+        id: string;
+        name: string;
+        role?: string;
+    };
 }
 
 export const leadService = {

@@ -23,7 +23,7 @@ export async function loginAction(email: string, password: string): Promise<{ su
         }
 
         return { success: true, user };
-    } catch (err: any) {
+    } catch {
         return { success: false, error: "System failure: Connection to intelligence nexus interrupted." };
     }
 }

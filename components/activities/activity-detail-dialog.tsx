@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Sparkles, Clock, Target, User, FileText, Info } from "lucide-react";
+import { X, Clock, Target, User, FileText, Info } from "lucide-react";
 import { Activity } from "@/lib/services/activity-service";
 
 interface ActivityDetailDialogProps {
@@ -53,7 +53,7 @@ export function ActivityDetailDialog({ isOpen, onClose, activity }: ActivityDeta
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Tactical Summary</span>
                         </div>
                         <p className="text-2xl font-black text-zinc-900 tracking-tight italic leading-relaxed">
-                            "{activity.note}"
+                            &quot;{activity.note}&quot;
                         </p>
                     </div>
 

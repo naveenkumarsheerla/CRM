@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, Save, Loader2, Sparkles, Calendar, User, Target, AlignLeft } from "lucide-react";
+import { useState } from "react";
+import { X, Save, Loader2, Sparkles, Calendar, User as UserIcon, Target, AlignLeft } from "lucide-react";
 import { Task } from "@/lib/services/task-service";
-
+import { Lead } from "@/lib/services/lead-service";
+import { User } from "@/lib/services/user-service";
+ 
 interface TaskDialogProps {
     isOpen: boolean;
     onClose: () => void;
     title: string;
-    leads: any[];
-    users: any[];
+    leads: Lead[];
+    users: User[];
     initialData?: Task;
     onSubmit: (data: Omit<Task, "id" | "created_at" | "updated_at" | "lead" | "user">) => void;
     isLoading?: boolean;
@@ -26,35 +28,15 @@ export function TaskDialog({
     isLoading,
 }: TaskDialogProps) {
     const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        status: "pending",
-        dueDate: "",
-        leadId: "",
-        userId: "",
+        title: initialData?.title || "",
+        description: initialData?.description || "",
+        status: initialData?.status || "pending",
+        dueDate: initialData?.dueDate ? new Date(initialData?.dueDate).toISOString().split('T')[0] : "",
+        leadId: initialData?.leadId || "",
+        userId: initialData?.userId || "",
     });
 
-    useEffect(() => {
-        if (initialData) {
-            setFormData({
-                title: initialData.title || "",
-                description: initialData.description || "",
-                status: initialData.status || "pending",
-                dueDate: initialData.dueDate ? new Date(initialData.dueDate).toISOString().split('T')[0] : "",
-                leadId: initialData.leadId || "",
-                userId: initialData.userId || "",
-            });
-        } else {
-            setFormData({
-                title: "",
-                description: "",
-                status: "pending",
-                dueDate: "",
-                leadId: "",
-                userId: "",
-            });
-        }
-    }, [initialData, isOpen]);
+
 
     if (!isOpen) return null;
 
@@ -166,7 +148,7 @@ export function TaskDialog({
 
                             <div className="space-y-2">
                                 <label className="text-xs font-black  tracking-widest text-zinc-500 ml-1 flex items-center gap-2">
-                                    <User size={14} /> Assignee
+                                    <UserIcon size={14} /> Assignee
                                 </label>
                                 <select
                                     value={formData.userId}

@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, Save, Trash2, Loader2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { X, Save, Loader2, Sparkles } from "lucide-react";
 import { Deal } from "@/lib/services/deal-service";
-
+import { Lead } from "@/lib/services/lead-service";
+ 
 interface DealDialogProps {
     isOpen: boolean;
     onClose: () => void;
     title: string;
-    leads: any[];
+    leads: Lead[];
     initialData?: Deal;
     onSubmit: (data: Omit<Deal, "id" | "created_at" | "updated_at" | "lead">) => void;
     isLoading?: boolean;
@@ -24,29 +25,13 @@ export function DealDialog({
     isLoading,
 }: DealDialogProps) {
     const [formData, setFormData] = useState({
-        title: "",
-        amount: 0,
-        stage: "new",
-        leadId: "",
+        title: initialData?.title || "",
+        amount: initialData?.amount || 0,
+        stage: initialData?.stage || "new",
+        leadId: initialData?.leadId || "",
     });
 
-    useEffect(() => {
-        if (initialData) {
-            setFormData({
-                title: initialData.title || "",
-                amount: initialData.amount || 0,
-                stage: initialData.stage || "new",
-                leadId: initialData.leadId || "",
-            });
-        } else {
-            setFormData({
-                title: "",
-                amount: 0,
-                stage: "new",
-                leadId: "",
-            });
-        }
-    }, [initialData, isOpen]);
+
 
     if (!isOpen) return null;
 

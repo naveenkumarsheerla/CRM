@@ -10,7 +10,7 @@ interface LeadDialogProps {
     onClose: () => void;
     title: string;
     users: User[];
-    initialData?: any;
+    initialData?: Lead;
     onSubmit: (data: Omit<Lead, "id" | "created_at" | "updated_at">) => void;
     isLoading?: boolean;
 }

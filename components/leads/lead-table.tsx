@@ -4,8 +4,8 @@ import { Lead } from "@/lib/services/lead-service";
 import { Edit2, Trash2, Mail, Phone, Target, User as UserIcon } from "lucide-react";
 
 interface LeadTableProps {
-    leads: any[]; // Using any for now due to Prisma relation types
-    onEdit: (lead: any) => void;
+    leads: Lead[]; 
+    onEdit: (lead: Lead) => void;
     onDelete: (id: string) => void;
 }
 

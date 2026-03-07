@@ -28,8 +28,8 @@ export default function LoginPage() {
                 setError(result.error || "Authentication failed.");
                 setIsLoading(false);
             }
-        } catch (err) {
-            setError("Communication link severed. Retry sequence.");
+        } catch {
+            setError("System failure: Connection to intelligence nexus interrupted.");
             setIsLoading(false);
         }
     };

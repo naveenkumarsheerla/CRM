@@ -1,0 +1,56 @@
+﻿
+D:\learn\crm-dashboard\app\activities\page.tsx
+   9:74  warning  'Filter' is defined but never used        @typescript-eslint/no-unused-vars
+  16:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  37:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\deals\page.tsx
+   4:53  warning  'Filter' is defined but never used        @typescript-eslint/no-unused-vars
+  13:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  31:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:51  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  72:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\leads\page.tsx
+   7:59  warning  'Filter' is defined but never used        @typescript-eslint/no-unused-vars
+  11:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:52  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  30:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:51  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:31  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\login\actions.ts
+  26:14  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+  26:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\login\page.tsx
+  31:18  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\learn\crm-dashboard\app\page.tsx
+   8:3   warning  'Briefcase' is defined but never used       @typescript-eslint/no-unused-vars
+   9:3   warning  'ArrowUpRight' is defined but never used    @typescript-eslint/no-unused-vars
+  10:3   warning  'ArrowDownRight' is defined but never used  @typescript-eslint/no-unused-vars
+  33:48  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  34:38  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\tasks\page.tsx
+   8:62  warning  'Filter' is defined but never used        @typescript-eslint/no-unused-vars
+  15:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:51  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\learn\crm-dashboard\app\users\page.tsx
+  23:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  46:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  64:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 37 problems (28 errors, 9 warnings)
+

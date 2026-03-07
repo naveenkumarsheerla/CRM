@@ -1,7 +1,7 @@
 "use client";
 
 import { Deal } from "@/lib/services/deal-service";
-import { Edit2, Trash2, DollarSign, Tag, Calendar, User as UserIcon } from "lucide-react";
+import { Edit2, Trash2, Tag, Calendar } from "lucide-react";
 
 interface DealTableProps {
     deals: Deal[];
@@ -9,12 +9,7 @@ interface DealTableProps {
     onDelete: (id: string) => void;
 }
 
-const stageColors: Record<string, string> = {
-    new: "bg-blue-100 text-blue-700",
-    negotiation: "bg-amber-100 text-amber-700",
-    closed_won: "bg-emerald-100 text-emerald-700",
-    closed_lost: "bg-rose-100 text-rose-700",
-};
+
 
 export function DealTable({ deals, onEdit, onDelete }: DealTableProps) {
     return (

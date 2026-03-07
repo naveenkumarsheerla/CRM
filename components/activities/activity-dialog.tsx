@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, Save, Loader2, Sparkles, Phone, Mail, Users, FileText, Target, User } from "lucide-react";
+import { useState } from "react";
+import { X, Save, Loader2, Sparkles, Phone, Mail, Users, FileText, Target, User as UserIcon } from "lucide-react";
 import { Activity } from "@/lib/services/activity-service";
+import { Lead } from "@/lib/services/lead-service";
+import { User } from "@/lib/services/user-service";
 
 interface ActivityDialogProps {
     isOpen: boolean;
     onClose: () => void;
     title: string;
-    leads: any[];
-    users: any[];
+    leads: Lead[];
+    users: User[];
     initialData?: Activity;
     onSubmit: (data: Omit<Activity, "id" | "created_at" | "lead" | "user">) => void;
     isLoading?: boolean;
@@ -33,29 +35,13 @@ export function ActivityDialog({
     isLoading,
 }: ActivityDialogProps) {
     const [formData, setFormData] = useState({
-        type: "note",
-        note: "",
-        leadId: "",
-        userId: "",
+        type: initialData?.type || "note",
+        note: initialData?.note || "",
+        leadId: initialData?.leadId || "",
+        userId: initialData?.userId || "",
     });
 
-    useEffect(() => {
-        if (initialData) {
-            setFormData({
-                type: initialData.type || "note",
-                note: initialData.note || "",
-                leadId: initialData.leadId || "",
-                userId: initialData.userId || "",
-            });
-        } else {
-            setFormData({
-                type: "note",
-                note: "",
-                leadId: "",
-                userId: "",
-            });
-        }
-    }, [initialData, isOpen]);
+
 
     if (!isOpen) return null;
 
@@ -147,7 +133,7 @@ export function ActivityDialog({
 
                             <div className="space-y-2">
                                 <label className="text-xs font-black tracking-widest text-zinc-500 ml-1 flex items-center gap-2">
-                                    <User size={14} /> Logged By
+                                    <UserIcon size={14} /> Logged By
                                 </label>
                                  <select
                                     value={formData.userId}

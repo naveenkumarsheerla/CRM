@@ -5,9 +5,6 @@ import {
   Users,
   TrendingUp,
   DollarSign,
-  Briefcase,
-  ArrowUpRight,
-  ArrowDownRight,
   Clock,
   CheckCircle2,
   Activity as ActivityIcon,
@@ -19,8 +16,8 @@ import {
 } from "lucide-react";
 import { userService } from "@/lib/services/user-service";
 import { dealService } from "@/lib/services/deal-service";
-import { taskService } from "@/lib/services/task-service";
-import { activityService } from "@/lib/services/activity-service";
+import { activityService, Activity } from "@/lib/services/activity-service";
+import { taskService, Task } from "@/lib/services/task-service";
 import Link from "next/link";
 
 export default function Home() {
@@ -30,8 +27,8 @@ export default function Home() {
     { name: "Total Revenue", value: "$0", change: "+0%", trend: "neutral", icon: DollarSign, color: "bg-amber-500" },
     { name: "Pending Tasks", value: "0", change: "+0%", trend: "neutral", icon: CheckCircle2, color: "bg-purple-500" },
   ]);
-  const [activities, setActivities] = useState<any[]>([]);
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {

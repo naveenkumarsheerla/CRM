@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { User, userService } from "@/lib/services/user-service";
-import { leadService } from "@/lib/services/lead-service";
+import { leadService, Lead } from "@/lib/services/lead-service";
 import { TaskTable } from "@/components/tasks/task-table";
 import { TaskDialog } from "@/components/tasks/task-dialog";
-import { Plus, CheckCircle2, RefreshCw, AlertCircle, Search, Filter } from "lucide-react";
+import { Plus, CheckCircle2, RefreshCw, AlertCircle, Search } from "lucide-react";
 import { getTasksAction, createTaskAction, updateTaskAction, deleteTaskAction } from "./actions";
 import { Task } from "@/lib/services/task-service";
 
 export default function TasksPage() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [users, setUsers] = useState<User[]>([]);
-    const [leads, setLeads] = useState<any[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | undefined>();
@@ -32,7 +32,7 @@ export default function TasksPage() {
             setTasks(tasksData);
             setUsers(usersData);
             setLeads(leadsData);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Failed to synchronize with the database. Ensure Prisma is generated and the database is reachable.");
         } finally {
@@ -44,7 +44,7 @@ export default function TasksPage() {
         fetchData();
     }, []);
 
-    const handleCreateOrUpdate = async (formData: any) => {
+    const handleCreateOrUpdate = async (formData: Omit<Task, "id" | "created_at" | "updated_at" | "lead" | "user">) => {
         setIsSubmitting(true);
         try {
             if (editingTask?.id) {
@@ -55,9 +55,10 @@ export default function TasksPage() {
             setIsDialogOpen(false);
             setEditingTask(undefined);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Database Error: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Database Error: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -72,9 +73,10 @@ export default function TasksPage() {
         try {
             await deleteTaskAction(id);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Deletion Failed: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Deletion Failed: " + errorMessage);
         }
     };
 
@@ -158,8 +160,12 @@ export default function TasksPage() {
             )}
 
             <TaskDialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
+                key={editingTask?.id || (isDialogOpen && !editingTask ? 'new' : 'none')}
+                isOpen={isDialogOpen || !!editingTask}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                    setEditingTask(undefined);
+                }}
                 title={editingTask ? "Edit Task" : "New Task"}
                 users={users}
                 leads={leads}

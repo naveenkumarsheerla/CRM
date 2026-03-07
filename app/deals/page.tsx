@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Tag, RefreshCw, AlertCircle, Search, Filter, Briefcase } from "lucide-react";
+import { Plus, Tag, RefreshCw, AlertCircle, Search, Briefcase } from "lucide-react";
 import { getDealsAction, createDealAction, updateDealAction, deleteDealAction } from "./actions";
 import { getLeadsAction } from "../leads/actions";
 import { DealTable } from "@/components/deals/deal-table";
 import { DealDialog } from "@/components/deals/deal-dialog";
 import { Deal } from "@/lib/services/deal-service";
+import { Lead } from "@/lib/services/lead-service";
 
 export default function DealsPage() {
     const [deals, setDeals] = useState<Deal[]>([]);
-    const [leads, setLeads] = useState<any[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingDeal, setEditingDeal] = useState<Deal | undefined>();
@@ -28,7 +29,7 @@ export default function DealsPage() {
             ]);
             setDeals(dealsData);
             setLeads(leadsData);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Failed to synchronize with the database. Ensure schema is pushed and database is reachable.");
         } finally {
@@ -40,7 +41,7 @@ export default function DealsPage() {
         fetchData();
     }, []);
 
-    const handleCreateOrUpdate = async (formData: any) => {
+    const handleCreateOrUpdate = async (formData: Omit<Deal, "id" | "created_at" | "updated_at" | "lead">) => {
         setIsSubmitting(true);
         try {
             if (editingDeal?.id) {
@@ -51,9 +52,10 @@ export default function DealsPage() {
             setIsDialogOpen(false);
             setEditingDeal(undefined);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Database Error: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Database Error: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -69,9 +71,10 @@ export default function DealsPage() {
         try {
             await deleteDealAction(id);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Deletion Failed: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Deletion Failed: " + errorMessage);
         }
     };
 
@@ -162,8 +165,12 @@ export default function DealsPage() {
             )}
 
             <DealDialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
+                key={editingDeal?.id || (isDialogOpen && !editingDeal ? 'new' : 'none')}
+                isOpen={isDialogOpen || !!editingDeal}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                    setEditingDeal(undefined);
+                }}
                 title={editingDeal ? "Edit Deal" : "New Deal"}
                 leads={leads}
                 initialData={editingDeal}

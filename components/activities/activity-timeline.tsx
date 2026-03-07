@@ -17,7 +17,9 @@ interface ActivityTimelineProps {
     onDelete: (id: string) => void;
 }
 
-const typeConfig: Record<string, { icon: any, color: string, label: string }> = {
+import { LucideIcon } from "lucide-react";
+
+const typeConfig: Record<string, { icon: LucideIcon, color: string, label: string }> = {
     call: { icon: Phone, color: "bg-blue-500", label: "Phone Call" },
     email: { icon: Mail, color: "bg-emerald-500", label: "Email Sent" },
     meeting: { icon: Users, color: "bg-purple-500", label: "Meeting" },
@@ -74,7 +76,7 @@ export function ActivityTimeline({ activities, onDelete }: ActivityTimelineProps
                             <div className="space-y-6">
                                 {activity.note && (
                                     <p className="text-zinc-900 font-black text-xl tracking-tighter leading-tight italic">
-                                        "{activity.note}"
+                                        &quot;{activity.note}&quot;
                                     </p>
                                 )}
 

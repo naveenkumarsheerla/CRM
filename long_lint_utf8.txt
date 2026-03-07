@@ -1,0 +1,39 @@
+﻿
+D:\learn\crm-dashboard\components\activities\activity-dialog.tsx
+  3:10  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\learn\crm-dashboard\components\deals\deal-dialog.tsx
+  3:10  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\learn\crm-dashboard\components\tasks\task-dialog.tsx
+  3:10  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\learn\crm-dashboard\components\tasks\task-table.tsx
+  3:10  warning  'useState' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\learn\crm-dashboard\lib\contexts\auth-context.tsx
+  25:17  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\learn\crm-dashboard\lib\contexts\auth-context.tsx:25:17
+  23 |             try {
+  24 |                 const parsedUser = JSON.parse(savedUser);
+> 25 |                 setUser(parsedUser);
+     |                 ^^^^^^^ Avoid calling setState() directly within an effect
+  26 |             } catch (err) {
+  27 |                 console.error("Failed to parse saved user", err);
+  28 |                 localStorage.removeItem("crm-user");  react-hooks/set-state-in-effect
+
+D:\learn\crm-dashboard\lib\services\task-service.ts
+  66:23  warning  '_lead' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  66:36  warning  '_user' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  66:55  warning  '_created_at' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  66:80  warning  '_updated_at' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 9 problems (1 error, 8 warnings)
+

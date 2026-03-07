@@ -6,16 +6,18 @@ import { leadService } from "@/lib/services/lead-service";
 import { ActivityTable } from "@/components/activities/activity-table";
 import { ActivityDialog } from "@/components/activities/activity-dialog";
 import { ActivityDetailDialog } from "@/components/activities/activity-detail-dialog";
-import { Plus, Activity as ActivityIcon, RefreshCw, AlertCircle, Search, Filter } from "lucide-react";
+import { Plus, Activity as ActivityIcon, RefreshCw, AlertCircle, Search } from "lucide-react";
 import { getActivitiesAction, createActivityAction, deleteActivityAction } from "./actions";
 import { Activity } from "@/lib/services/activity-service";
+import { Lead } from "@/lib/services/lead-service";
 
 export default function ActivitiesPage() {
     const [activities, setActivities] = useState<Activity[]>([]);
     const [users, setUsers] = useState<User[]>([]);
-    const [leads, setLeads] = useState<any[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +36,7 @@ export default function ActivitiesPage() {
             setActivities(activitiesData);
             setUsers(usersData);
             setLeads(leadsData);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Failed to synchronize with the database. Check database connectivity.");
         } finally {
@@ -46,15 +48,16 @@ export default function ActivitiesPage() {
         fetchData();
     }, []);
 
-    const handleCreate = async (formData: any) => {
+    const handleCreate = async (formData: Omit<Activity, "id" | "created_at" | "lead" | "user">) => {
         setIsSubmitting(true);
         try {
             await createActivityAction(formData);
             setIsDialogOpen(false);
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Database Error: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Database Error: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -68,9 +71,10 @@ export default function ActivitiesPage() {
                 setSelectedActivity(null);
             }
             fetchData();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Deletion Failed: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Deletion Failed: " + errorMessage);
         }
     };
 
@@ -168,11 +172,16 @@ export default function ActivitiesPage() {
             />
 
             <ActivityDialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
-                title="Log Execution"
+                key={editingActivity?.id || (isDialogOpen && !editingActivity ? 'new' : 'none')}
+                isOpen={isDialogOpen || !!editingActivity}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                    setEditingActivity(null);
+                }}
+                title={editingActivity ? "Edit Activity" : "Log Execution"}
                 users={users}
                 leads={leads}
+                initialData={editingActivity || undefined}
                 onSubmit={handleCreate}
                 isLoading={isSubmitting}
             />

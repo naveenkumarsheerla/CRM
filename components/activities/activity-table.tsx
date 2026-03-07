@@ -19,7 +19,9 @@ interface ActivityTableProps {
     onDelete: (id: string) => void;
 }
 
-const typeConfig: Record<string, { icon: any, color: string, label: string }> = {
+import { LucideIcon } from "lucide-react";
+
+const typeConfig: Record<string, { icon: LucideIcon, color: string, label: string }> = {
     call: { icon: Phone, color: "bg-blue-500", label: "Phone Call" },
     email: { icon: Mail, color: "bg-emerald-500", label: "Email Sent" },
     meeting: { icon: Users, color: "bg-purple-500", label: "Meeting" },

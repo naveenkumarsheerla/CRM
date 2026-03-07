@@ -20,7 +20,7 @@ export default function UsersPage() {
         try {
             const data = await userService.getUsers();
             setUsers(data);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Failed to fetch users. Check your database connection.");
         } finally {
@@ -43,9 +43,10 @@ export default function UsersPage() {
             setIsDialogOpen(false);
             setEditingUser(undefined);
             fetchUsers();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Error saving user: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Error saving user: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -61,9 +62,10 @@ export default function UsersPage() {
         try {
             await userService.deleteUser(id);
             fetchUsers();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            alert("Error deleting user: " + err.message);
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            alert("Error deleting user: " + errorMessage);
         }
     };
 

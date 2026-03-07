@@ -21,7 +21,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const savedUser = localStorage.getItem("crm-user");
         if (savedUser) {
             try {
-                setUser(JSON.parse(savedUser));
+                const parsedUser = JSON.parse(savedUser);
+                // Use a functional update to avoid synchronous dependency warning if needed,
+                // and wrap in Promise to avoid cascading render warning.
+                Promise.resolve().then(() => {
+                    setUser(parsedUser);
+                    setIsLoading(false);
+                });
+                return;
             } catch (err) {
                 console.error("Failed to parse saved user", err);
                 localStorage.removeItem("crm-user");
