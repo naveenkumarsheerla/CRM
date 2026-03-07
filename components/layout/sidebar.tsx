@@ -21,7 +21,7 @@ const navItems = [
     { name: "Users", href: "/users", icon: Users },
     { name: "Leads", href: "/leads", icon: Target },
     { name: "Deals", href: "/deals", icon: TrendingUp },
-    { name: "Stack", href: "/tasks", icon: CheckCircle2 },
+    { name: "Tasks", href: "/tasks", icon: CheckCircle2 },
     { name: "Activities", href: "/activities", icon: ActivityIcon },
     { name: "Clients", href: "/clients", icon: Briefcase },
     { name: "Settings", href: "/settings", icon: Settings },
