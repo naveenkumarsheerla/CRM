@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+    Sparkles,
     LayoutDashboard,
     Users,
     Settings,
@@ -20,8 +21,8 @@ const navItems = [
     { name: "Users", href: "/users", icon: Users },
     { name: "Leads", href: "/leads", icon: Target },
     { name: "Deals", href: "/deals", icon: TrendingUp },
-    { name: "Tasks", href: "/tasks", icon: CheckCircle2 },
-    { name: "Activities", href: "/activities", icon: ActivityIcon },
+    { name: "Stack", href: "/tasks", icon: CheckCircle2 },
+    { name: "Chronicle", href: "/activities", icon: ActivityIcon },
     { name: "Clients", href: "/clients", icon: Briefcase },
     { name: "Settings", href: "/settings", icon: Settings },
 ];
@@ -38,11 +39,9 @@ export function Sidebar() {
     return (
         <div className="flex flex-col h-full bg-white border-r border-zinc-200 w-64 transition-all duration-300">
             <div className="p-6">
-                <div className="flex items-center gap-2 px-2">
-                    <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
-                        <span className="text-white font-bold text-lg">A</span>
-                    </div>
-                    <span className="font-bold text-xl tracking-tight text-zinc-900">CRM Core</span>
+                <div className="flex items-center gap-3 px-2">
+                    <Sparkles className="text-blue-600" size={20} />
+                    <span className="font-bold text-xl tracking-tight text-zinc-900 whitespace-nowrap">CRM Dashboard</span>
                 </div>
             </div>
 

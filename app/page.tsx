@@ -115,13 +115,13 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-7xl space-y-10 animate-in fade-in duration-700 pb-12">
       <div className="flex flex-col gap-2">
-        <h1 className="flex items-center gap-3 text-5xl font-black tracking-tighter text-zinc-900">
-          <Sparkles className="text-blue-500 animate-pulse" size={32} />
-          Pulse Overview
+        <h1 className="flex items-center gap-3 text-xl font-black tracking-tighter text-zinc-900">
+          <Sparkles className="text-blue-500 animate-pulse" size={24} />
+          CRM Dashboard
         </h1>
-        <p className="text-zinc-500 font-bold uppercase tracking-[0.3em] text-xs opacity-60">
-          Real-time Command Hub
-        </p>
+        {/* <p className="text-zinc-500 font-bold uppercase tracking-[0.3em] text-xs opacity-60">
+
+        </p> */}
       </div>
 
       {/* Stats Grid */}
