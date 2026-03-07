@@ -129,21 +129,24 @@ export default function Home() {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="group relative overflow-hidden p-8 bg-white rounded-[40px] border border-zinc-200 shadow-xl shadow-zinc-200/50 hover:shadow-2xl hover:shadow-zinc-300/50 transition-all hover:-translate-y-1"
+            className="group relative overflow-hidden p-8 bg-white rounded-[40px] border border-zinc-200 shadow-xl shadow-zinc-200/40 hover:shadow-2xl hover:shadow-zinc-300/40 transition-all hover:-translate-y-1"
           >
-            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity text-zinc-900">
-                <stat.icon size={120} />
-            </div>
-            <div className="flex items-center justify-between mb-6">
-              <div className={`p-4 rounded-[20px] ${stat.color} bg-opacity-10 text-zinc-900`}>
-                <stat.icon size={28} />
+            <div className="flex items-center justify-between mb-8">
+              <div className={`p-4 rounded-[22px] ${stat.color} text-white shadow-lg shadow-${stat.color.split('-')[1]}-500/20`}>
+                <stat.icon size={24} />
               </div>
-              <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-zinc-50 ${stat.trend === 'up' ? 'text-blue-600' : stat.trend === 'down' ? 'text-red-600' : 'text-zinc-400'}`}>
+              <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-full ${stat.color.replace('bg-', 'bg-opacity-10 text-').replace('500', '600')} bg-opacity-10`}>
                 {stat.change}
               </span>
             </div>
-            <p className="text-xs font-black uppercase tracking-widest text-zinc-400 opacity-60">{stat.name}</p>
-            <p className="text-4xl font-black text-zinc-900 tracking-tighter mt-2">{stat.value}</p>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{stat.name}</p>
+              <p className="text-5xl font-black text-zinc-900 tracking-tighter">{stat.value}</p>
+            </div>
+            {/* Subtle background icon for depth */}
+            <div className="absolute -bottom-6 -right-6 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity text-zinc-900 rotate-12">
+                <stat.icon size={120} />
+            </div>
           </div>
         ))}
       </div>
