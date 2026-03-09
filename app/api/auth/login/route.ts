@@ -21,9 +21,24 @@ export async function POST(request: Request) {
             );
         }
 
+        if (!result.user) {
+            return NextResponse.json(
+                { error: "Internal Server Error: User data missing" },
+                { status: 500 }
+            );
+        }
+
+        const { signToken } = await import("@/lib/auth");
+        const token = await signToken({
+            userId: result.user.id,
+            email: result.user.email,
+            role: result.user.role
+        });
+
         return NextResponse.json({
             success: true,
-            user: result.user
+            user: result.user,
+            token
         });
     } catch (error) {
         console.error("Login API Error:", error);
