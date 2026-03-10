@@ -2,6 +2,7 @@
 
 import { Bell, Search, ChevronDown } from "lucide-react";
 import { useAuth } from "@/lib/contexts/auth-context";
+import { GlobalSearch } from "./global-search";
 
 export function Header() {
     const { user } = useAuth();
@@ -22,14 +23,7 @@ export function Header() {
     return (
         <header className="h-16 border-b border-zinc-200 bg-white/80 backdrop-blur-md sticky top-0 z-30">
             <div className="h-full px-8 flex items-center justify-between">
-                <div className="relative w-96">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
-                    <input
-                        type="text"
-                        placeholder="Search leads, deals, or team members..."
-                        className="w-full bg-zinc-50 border border-zinc-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900/5 transition-all"
-                    />
-                </div>
+                <GlobalSearch />
 
                 <div className="flex items-center gap-4">
                     <button className="p-2 text-zinc-500 hover:bg-zinc-100 rounded-full relative transition-colors">

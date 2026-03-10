@@ -15,6 +15,7 @@ import {
     CheckCircle2,
     Activity as ActivityIcon
 } from "lucide-react";
+import { useAuth } from "@/lib/contexts/auth-context";
 
 const navItems = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -30,9 +31,10 @@ const navItems = [
 export function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        // Logic to clear session could go here
+        logout();
         router.push("/login");
     };
 

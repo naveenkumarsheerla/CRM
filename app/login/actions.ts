@@ -22,7 +22,21 @@ export async function loginAction(email: string, password: string): Promise<{ su
             return { success: false, error: "Access denied: Secure keyphrase mismatch." };
         }
 
-        return { success: true, user };
+        // Generate JWT token
+        const { signToken } = await import("@/lib/auth");
+        const token = await signToken({
+            userId: user.id,
+            email: user.email,
+            role: user.role
+        });
+
+        return { 
+            success: true, 
+            user: {
+                ...user,
+                token
+            } 
+        };
     } catch {
         return { success: false, error: "System failure: Connection to intelligence nexus interrupted." };
     }

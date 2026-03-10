@@ -22,6 +22,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (savedUser) {
             try {
                 const parsedUser = JSON.parse(savedUser);
+                
+                // Check if token is expired on load
+                if (parsedUser.token) {
+                    try {
+                        const payload = JSON.parse(atob(parsedUser.token.split('.')[1]));
+                        if (payload.exp && payload.exp * 1000 < Date.now()) {
+                            console.log("Token expired, requiring new login.");
+                            localStorage.removeItem("crm-user");
+                            setIsLoading(false);
+                            return;
+                        }
+                    } catch (e) {
+                        // ignore error
+                    }
+                }
+
                 // Use a functional update to avoid synchronous dependency warning if needed,
                 // and wrap in Promise to avoid cascading render warning.
                 Promise.resolve().then(() => {
@@ -36,6 +52,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         setIsLoading(false);
     }, []);
+
+    useEffect(() => {
+        if (!user || !user.token) return;
+
+        const checkToken = () => {
+            try {
+                const payload = JSON.parse(atob(user.token!.split('.')[1]));
+                if (payload.exp && payload.exp * 1000 < Date.now()) {
+                    logout();
+                    window.location.href = "/login";
+                }
+            } catch (e) {
+                // ignore
+            }
+        };
+
+        const intervalId = setInterval(checkToken, 60000); // Check every minute
+        return () => clearInterval(intervalId);
+    }, [user]);
 
     const login = (userData: User) => {
         setUser(userData);
